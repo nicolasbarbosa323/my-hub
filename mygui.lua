@@ -1,0 +1,163 @@
+-- 🧠 GUI COMPLETA COM TODOS OS SCRIPTS E FUNCIONALIDADES
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local SGLITCHER_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/SCPECTRUMGLITCHER/refs/heads/main/SpectrumG%20(1).txt"
+local C00LGUI_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/c00lgui/refs/heads/main/c00lguiv3rx.lua.txt"
+local SINDRAGON_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/Fe_sin_dragon_music.lua"
+local HANDRAVAGE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/hwnwvdFy"
+local ENDERCONVERTED_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/ender-convert/refs/heads/main/ENDER%20CONVERTED.lua"
+
+local function createGUI()
+    local gui = Instance.new("ScreenGui", game.CoreGui)
+    gui.Name = "GalaxyFunGui"
+
+    local mainFrame = Instance.new("Frame", gui)
+    mainFrame.Size = UDim2.new(0, 500, 0, 300)
+    mainFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    mainFrame.BorderSizePixel = 2
+    mainFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    mainFrame.Active = true
+    mainFrame.Draggable = true
+
+    local isMinimized = false
+    local originalSize = mainFrame.Size
+
+    local title = Instance.new("TextLabel", mainFrame)
+    title.Size = UDim2.new(1, -90, 0, 30)
+    title.Position = UDim2.new(0, 0, 0, 0)
+    title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    title.BorderSizePixel = 0
+    title.Text = "GUI de Galaxy Impact (CLIENT REPLICATION)"
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.Font = Enum.Font.SourceSansBold
+    title.TextSize = 18
+
+    local minimize = Instance.new("TextButton", mainFrame)
+    minimize.Size = UDim2.new(0, 30, 0, 30)
+    minimize.Position = UDim2.new(1, -90, 0, 0)
+    minimize.Text = "-"
+    minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
+    minimize.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+
+    local maximize = Instance.new("TextButton", mainFrame)
+    maximize.Size = UDim2.new(0, 30, 0, 30)
+    maximize.Position = UDim2.new(1, -60, 0, 0)
+    maximize.Text = "◻"
+    maximize.TextColor3 = Color3.fromRGB(255, 255, 255)
+    maximize.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+
+    local close = Instance.new("TextButton", mainFrame)
+    close.Size = UDim2.new(0, 30, 0, 30)
+    close.Position = UDim2.new(1, -30, 0, 0)
+    close.Text = "X"
+    close.TextColor3 = Color3.fromRGB(255, 255, 255)
+    close.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+
+    local scrolling = Instance.new("ScrollingFrame", mainFrame)
+    scrolling.Size = UDim2.new(1, 0, 1, -30)
+    scrolling.Position = UDim2.new(0, 0, 0, 30)
+    scrolling.CanvasSize = UDim2.new(0, 0, 0, 600)
+    scrolling.ScrollBarThickness = 8
+    scrolling.BackgroundTransparency = 1
+
+    local function styleButton(btn)
+        btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        btn.BorderSizePixel = 1
+        btn.BorderColor3 = Color3.fromRGB(255, 255, 255)
+        btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        btn.MouseEnter:Connect(function()
+            btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        end)
+        btn.MouseLeave:Connect(function()
+            btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        end)
+    end
+
+    local function createButton(text, posY, callback)
+        local btn = Instance.new("TextButton", scrolling)
+        btn.Size = UDim2.new(1, -20, 0, 30)
+        btn.Position = UDim2.new(0, 10, 0, posY)
+        btn.Font = Enum.Font.SourceSans
+        btn.TextSize = 16
+        btn.Text = text
+        styleButton(btn)
+        btn.MouseButton1Click:Connect(callback)
+        return posY + 35
+    end
+
+    local y = 0
+    y = createButton("Sglitcher", y, function() loadstring(game:HttpGet(SGLITCHER_URL))() end)
+    y = createButton("c00lgui", y, function() loadstring(game:HttpGet(C00LGUI_URL))() end)
+    y = createButton("sin dragon", y, function() loadstring(game:HttpGet(SINDRAGON_URL))() end)
+    y = createButton("Hand Ravage", y, function() loadstring(game:HttpGet(HANDRAVAGE_URL))() end)
+    y = createButton("Ender Converted", y, function() loadstring(game:HttpGet("https://gist.githubusercontent.com/Onlyscripts1/2161aa14da3ed1a635c279c0f5f81a4b/raw/14aa5da07e3afcb0d67dd15ae79e9dcbcff74dbf/Fe%2520ender%2520V2"))() end)
+
+    -- Botão Morrer
+    y = createButton("Morrer", y, function()
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChild("Humanoid") then
+            character.Humanoid.Health = 0
+        end
+    end)
+
+
+
+    local function createInputButton(label, defaultValue, callback)
+        local txt = Instance.new("TextBox", scrolling)
+        txt.Size = UDim2.new(0, 100, 0, 30)
+        txt.Position = UDim2.new(0, 10, 0, y)
+        txt.Text = tostring(defaultValue)
+        txt.TextColor3 = Color3.fromRGB(255, 255, 255)
+        txt.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        txt.BorderColor3 = Color3.fromRGB(255, 255, 255)
+
+        local btn = Instance.new("TextButton", scrolling)
+        btn.Size = UDim2.new(0, 120, 0, 30)
+        btn.Position = UDim2.new(0, 120, 0, y)
+        btn.Text = label
+        styleButton(btn)
+
+        btn.MouseButton1Click:Connect(function()
+            local val = tonumber(txt.Text)
+            if val then callback(val) end
+        end)
+        y = y + 35
+    end
+
+    createInputButton("Speed Hack", 16, function(v) LocalPlayer.Character.Humanoid.WalkSpeed = v end)
+    createInputButton("Jump Boost", 50, function(v) LocalPlayer.Character.Humanoid.JumpPower = v end)
+    y = createButton("Reset Stats", y, function()
+        LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        LocalPlayer.Character.Humanoid.JumpPower = 50
+    end)
+
+    minimize.MouseButton1Click:Connect(function()
+        isMinimized = not isMinimized
+        if isMinimized then
+            scrolling.Visible = false
+
+mainFrame.Size = UDim2.new(0, 500, 0, 30)
+        else
+            scrolling.Visible = true
+            mainFrame.Size = originalSize
+        end
+    end)
+
+    maximize.MouseButton1Click:Connect(function()
+        if mainFrame.Size == UDim2.new(1, 0, 1, 0) then
+            mainFrame.Size = originalSize
+            mainFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
+        else
+            mainFrame.Size = UDim2.new(1, 0, 1, 0)
+            mainFrame.Position = UDim2.new(0, 0, 0, 0)
+        end
+    end)
+
+    close.MouseButton1Click:Connect(function()
+        gui:Destroy()
+    end)
+end
+
+createGUI()
