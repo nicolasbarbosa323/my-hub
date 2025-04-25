@@ -1,4 +1,3 @@
--- 🧠 GUI COMPLETA COM TODOS OS SCRIPTS E FUNCIONALIDADES
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
@@ -7,6 +6,9 @@ local C00LGUI_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/c00lgui
 local SINDRAGON_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/Fe_sin_dragon_music.lua"
 local HANDRAVAGE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/hwnwvdFy"
 local ENDERCONVERTED_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/ender-convert/refs/heads/main/ENDER%20CONVERTED.lua"
+local JOHNDOE_URL = "https://raw.githubusercontent.com/retpirato/Roblox-Scripts/refs/heads/master/John%20Doe.lua"
+
+local musicSound = nil
 
 local function createGUI()
     local gui = Instance.new("ScreenGui", game.CoreGui)
@@ -92,53 +94,47 @@ local function createGUI()
     y = createButton("c00lgui", y, function() loadstring(game:HttpGet(C00LGUI_URL))() end)
     y = createButton("sin dragon", y, function() loadstring(game:HttpGet(SINDRAGON_URL))() end)
     y = createButton("Hand Ravage", y, function() loadstring(game:HttpGet(HANDRAVAGE_URL))() end)
-    y = createButton("Ender Converted", y, function() loadstring(game:HttpGet("https://gist.githubusercontent.com/Onlyscripts1/2161aa14da3ed1a635c279c0f5f81a4b/raw/14aa5da07e3afcb0d67dd15ae79e9dcbcff74dbf/Fe%2520ender%2520V2"))() end)
+    y = createButton("Ender Converted", y, function() loadstring(game:HttpGet(ENDERCONVERTED_URL))() end)
 
-    -- Botão Morrer
+    -- Adicionando botão de "Morrer"
     y = createButton("Morrer", y, function()
-        local character = game.Players.LocalPlayer.Character
+        if musicSound then
+            musicSound:Stop()  -- Parar a música quando o jogador morrer
+        end
+        LocalPlayer.Character:BreakJoints()
+    end)
+
+    -- Adicionando botão de "Fix"
+    y = createButton("Fix", y, function()
+        -- Função de Fix pode ser definida aqui, por exemplo, corrigir alguma falha ou erro no jogo
+        -- Exemplo de fix: restaurar a saúde do jogador
+        local character = LocalPlayer.Character
         if character and character:FindFirstChild("Humanoid") then
-            character.Humanoid.Health = 0
+            local humanoid = character.Humanoid
+            humanoid.Health = humanoid.MaxHealth
         end
     end)
 
+    -- Adicionando botão de "John Doe"
+    y = createButton("John Doe", y, function()
+        -- Tocar a música com ID 1848354536 no volume 0.7 em loop
+        musicSound = Instance.new("Sound")
+        musicSound.SoundId = "rbxassetid://1848354536"
+        musicSound.Volume = 2
+        musicSound.Looped = true
+        musicSound.Parent = game.Workspace
+        musicSound:Play()
 
-
-    local function createInputButton(label, defaultValue, callback)
-        local txt = Instance.new("TextBox", scrolling)
-        txt.Size = UDim2.new(0, 100, 0, 30)
-        txt.Position = UDim2.new(0, 10, 0, y)
-        txt.Text = tostring(defaultValue)
-        txt.TextColor3 = Color3.fromRGB(255, 255, 255)
-        txt.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        txt.BorderColor3 = Color3.fromRGB(255, 255, 255)
-
-        local btn = Instance.new("TextButton", scrolling)
-        btn.Size = UDim2.new(0, 120, 0, 30)
-        btn.Position = UDim2.new(0, 120, 0, y)
-        btn.Text = label
-        styleButton(btn)
-
-        btn.MouseButton1Click:Connect(function()
-            local val = tonumber(txt.Text)
-            if val then callback(val) end
-        end)
-        y = y + 35
-    end
-
-    createInputButton("Speed Hack", 16, function(v) LocalPlayer.Character.Humanoid.WalkSpeed = v end)
-    createInputButton("Jump Boost", 50, function(v) LocalPlayer.Character.Humanoid.JumpPower = v end)
-    y = createButton("Reset Stats", y, function()
-        LocalPlayer.Character.Humanoid.WalkSpeed = 16
-        LocalPlayer.Character.Humanoid.JumpPower = 50
+        -- Executar o script John Doe
+        loadstring(game:HttpGet(JOHNDOE_URL))()
     end)
 
+    -- Funções de minimizar, maximizar e fechar
     minimize.MouseButton1Click:Connect(function()
         isMinimized = not isMinimized
         if isMinimized then
             scrolling.Visible = false
-
-mainFrame.Size = UDim2.new(0, 500, 0, 30)
+            mainFrame.Size = UDim2.new(0, 500, 0, 30)
         else
             scrolling.Visible = true
             mainFrame.Size = originalSize
