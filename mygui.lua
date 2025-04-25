@@ -106,8 +106,7 @@ local function createGUI()
 
     -- Adicionando botão de "Fix"
     y = createButton("Fix", y, function()
-        -- Função de Fix pode ser definida aqui, por exemplo, corrigir alguma falha ou erro no jogo
-        -- ANTI-CAOS VISUAL + HINT + CHAT FUNCIONAL 😎
+-- ANTI-CAOS VISUAL + HINT + CHAT FUNCIONAL 😎
 
 local player = game.Players.LocalPlayer
 
@@ -209,6 +208,7 @@ task.delay(2, function()
     if hint then hint:Destroy() end
 end)
 
+print("✅ Visual limpo, chat salvo e jogo consertado por Galaxy_Impact!")
     -- Adicionando botão de "John Doe"
     y = createButton("John Doe", y, function()
         -- Tocar a música com ID 1848354536 no volume 0.7 em loop
