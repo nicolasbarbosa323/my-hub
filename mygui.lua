@@ -208,7 +208,6 @@ task.delay(2, function()
     if hint then hint:Destroy() end
 end)
 
-print("✅ Visual limpo, chat salvo e jogo consertado por Galaxy_Impact!")
     -- Adicionando botão de "John Doe"
     y = createButton("John Doe", y, function()
         -- Tocar a música com ID 1848354536 no volume 0.7 em loop
