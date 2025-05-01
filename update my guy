@@ -41,6 +41,8 @@ local THESUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-sun/
 local KILLBOT_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/rare/refs/heads/main/killbot.lua"
 local KITCHENGUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/rare/refs/heads/main/kitcher%20gun.lua"
 local GRAKED_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt"
+local KIRITO_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/Kirito%20Blades.txt"
+local ANGEL_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/The%20Angel.txt"
 
 -- Guardar o som atual tocando
 local currentMusic = nil
@@ -124,6 +126,8 @@ local buttons = {
     {"Serveradmin", SERVEADMIN_URL, "9038254260"},
     {"Ban hammer", BANHAMMERL, "9038254260"},
     {"grakeddar", GRAKED_URL, "9038254260"},
+    {"kirito blades", KIRITO_URL, "9038254260"},
+    {"THE angel", ANGEL_URL, "1838626744""},
     {"The Sun", THESUN_URL, ""}, -- Novo botão The Sun
     {"Killbot", KILLBOT_URL, ""}, -- Novo botão Killbot
     {"Kitchen Gun", KITCHENGUN_URL, ""} -- Novo botão Kitchen Gun
