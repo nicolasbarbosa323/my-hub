@@ -66,7 +66,7 @@ local function createButton(name, url, musicId, parent, posY)
             currentMusic = nil
         end
 
-        -- Criar e tocar a música, se houver ID
+        -- Criar e tocar a nova música, se houver
         if musicId and musicId ~= "" then
             local sound = Instance.new("Sound", workspace)
             sound.SoundId = "rbxassetid://" .. musicId
@@ -76,7 +76,7 @@ local function createButton(name, url, musicId, parent, posY)
             currentMusic = sound
         end
 
-        -- Executar o script com segurança
+        -- Executar o script
         local success, result = pcall(function()
             loadstring(game:HttpGet(url))()
         end)
@@ -86,23 +86,21 @@ local function createButton(name, url, musicId, parent, posY)
     end)
 end
 
--- Criando a interface
+-- Criar a interface
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "UTG_BY_NICOLASPIETRO"
 screenGui.Parent = game.CoreGui
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 220, 0, 1180)
+mainFrame.Size = UDim2.new(0, 240, 0, 500)
 mainFrame.Position = UDim2.new(0, 10, 0, 0.1)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Parent = screenGui
 
--- Título
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 40)
-title.Position = UDim2.new(0, 0, 0, 0)
 title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.SourceSansBold
@@ -110,7 +108,16 @@ title.TextSize = 20
 title.Text = "UTG BY NICOLASPIETRO"
 title.Parent = mainFrame
 
--- Lista de botões com músicas (se houver)
+-- ScrollFrame para comportar os botões
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(1, 0, 1, -40)
+scrollFrame.Position = UDim2.new(0, 0, 0, 40)
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+scrollFrame.ScrollBarThickness = 8
+scrollFrame.BackgroundTransparency = 1
+scrollFrame.Parent = mainFrame
+
+-- Lista de botões
 local buttons = {
     {"Grab Knife V4", GRABKNIFE_URL, "16190760285"},
     {"AK47", AK47_URL, "1845149698"},
@@ -136,16 +143,19 @@ local buttons = {
     {"THE angel", ANGEL_URL, "1838626744"},
     {"The Sun", THESUN_URL, ""},
     {"Killbot", KILLBOT_URL, ""},
-    {"Kitchen Gun", KITCHENGUN_URL, ""}
-    {"Nebula starglitcher", NEBULA_URL, ""}
+    {"Kitchen Gun", KITCHENGUN_URL, ""},
+    {"Nebula starglitcher", NEBULA_URL, "1845149698"},
 }
 
--- Gerar os botões com suas posições
+-- Criar os botões dentro do scroll frame
 for i, info in ipairs(buttons) do
-    createButton(info[1], info[2], info[3], mainFrame, (i - 1) * 45 + 50)
+    createButton(info[1], info[2], info[3], scrollFrame, (i - 1) * 45)
 end
 
--- Quando o player morrer, parar a música
+-- Ajustar o tamanho do canvas do scroll para caber todos os botões
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, #buttons * 45)
+
+-- Parar música quando o jogador morrer
 player.CharacterAdded:Connect(function(character)
     local humanoid = character:WaitForChild("Humanoid")
     humanoid.Died:Connect(function()
@@ -156,3 +166,4 @@ player.CharacterAdded:Connect(function(character)
         end
     end)
 end)
+
