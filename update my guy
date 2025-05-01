@@ -41,6 +41,7 @@ local KITCHENGUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/rare
 local GRAKED_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt"
 local KIRITO_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/Kirito%20Blades.txt"
 local ANGEL_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/The%20Angel.txt"
+local NEBULA_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/nebulaglitcher/refs/heads/main/Nebula's%20Star%20Glitcher%20(EDITED%20BY%20FENIX7667%20IMORTAL%20EDIT%20).txt"
 
 -- Guardar o som atual tocando
 local currentMusic = nil
@@ -136,6 +137,7 @@ local buttons = {
     {"The Sun", THESUN_URL, ""},
     {"Killbot", KILLBOT_URL, ""},
     {"Kitchen Gun", KITCHENGUN_URL, ""}
+    {"Nebula starglitcher", NEBULA_URL, ""}
 }
 
 -- Gerar os botões com suas posições
