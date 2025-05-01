@@ -24,7 +24,7 @@ local BACKDOORSCANNER_URL = "https://raw.githubusercontent.com/nicolasbarbosa323
 local SGLITCHER_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/SCPECTRUMGLITCHER/refs/heads/main/SpectrumG%20(1).txt"
 local C00LGUI_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/c00lgui/refs/heads/main/c00lguiv3rx.lua.txt"
 local SINDRAGON_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/Fe_sin_dragon_music_customizado_final.lua"
-local HANDRAVAGE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/reevenge%20hands.txt"  -- Novo URL para Revenge Hands
+local HANDRAVAGE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/sin-dragon/refs/heads/main/reevenge%20hands.txt"
 local VEREUS_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/fLrx77PM.txt"
 local JOHNDOE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/metal-pip/refs/heads/main/john_doe_with_esp.lua"
 local GOODCOP_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/KwuminKa.txt"
@@ -35,9 +35,7 @@ local CRYSTALDANCE_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/cr
 local GONER_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/crytasl/refs/heads/main/goner.lua.txt"
 local SERVEADMIN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/crytasl/refs/heads/main/serveradmin.lua"
 local BANHAMMER_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/ban-hammer/refs/heads/main/ban"
-local THESUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-sun/refs/heads/main/the%20sun"  -- Novo URL para The Sun
-
--- Novo URLs para Killbot e Kitchen Gun
+local THESUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/the-sun/refs/heads/main/the%20sun"
 local KILLBOT_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/rare/refs/heads/main/killbot.lua"
 local KITCHENGUN_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/rare/refs/heads/main/kitcher%20gun.lua"
 local GRAKED_URL = "https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt"
@@ -67,16 +65,23 @@ local function createButton(name, url, musicId, parent, posY)
             currentMusic = nil
         end
 
-        -- Criar e tocar a música
-        local sound = Instance.new("Sound", workspace)
-        sound.SoundId = "rbxassetid://" .. musicId
-        sound.Volume = 2
-        sound.Looped = true
-        sound:Play()
-        currentMusic = sound
+        -- Criar e tocar a música, se houver ID
+        if musicId and musicId ~= "" then
+            local sound = Instance.new("Sound", workspace)
+            sound.SoundId = "rbxassetid://" .. musicId
+            sound.Volume = 2
+            sound.Looped = true
+            sound:Play()
+            currentMusic = sound
+        end
 
-        -- Executar o script
-        loadstring(game:HttpGet(url))()
+        -- Executar o script com segurança
+        local success, result = pcall(function()
+            loadstring(game:HttpGet(url))()
+        end)
+        if not success then
+            warn("Erro ao executar o script: " .. tostring(result))
+        end
     end)
 end
 
@@ -86,7 +91,7 @@ screenGui.Name = "UTG_BY_NICOLASPIETRO"
 screenGui.Parent = game.CoreGui
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 220, 0, 1080)
+mainFrame.Size = UDim2.new(0, 220, 0, 1180)
 mainFrame.Position = UDim2.new(0, 10, 0, 0.1)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.Active = true
@@ -104,7 +109,7 @@ title.TextSize = 20
 title.Text = "UTG BY NICOLASPIETRO"
 title.Parent = mainFrame
 
--- Lista de botões com suas respectivas músicas
+-- Lista de botões com músicas (se houver)
 local buttons = {
     {"Grab Knife V4", GRABKNIFE_URL, "16190760285"},
     {"AK47", AK47_URL, "1845149698"},
@@ -124,22 +129,21 @@ local buttons = {
     {"CrystalDance", CRYSTALDANCE_URL, ""},
     {"Goner", GONER_URL, "1845149698"},
     {"Serveradmin", SERVEADMIN_URL, "9038254260"},
-    {"Ban hammer", BANHAMMERL, "9038254260"},
+    {"Ban hammer", BANHAMMER_URL, "9038254260"},
     {"grakeddar", GRAKED_URL, "9038254260"},
     {"kirito blades", KIRITO_URL, "9038254260"},
-    {"THE angel", ANGEL_URL, "1838626744""},
-    {"The Sun", THESUN_URL, ""}, -- Novo botão The Sun
-    {"Killbot", KILLBOT_URL, ""}, -- Novo botão Killbot
-    {"Kitchen Gun", KITCHENGUN_URL, ""} -- Novo botão Kitchen Gun
+    {"THE angel", ANGEL_URL, "1838626744"},
+    {"The Sun", THESUN_URL, ""},
+    {"Killbot", KILLBOT_URL, ""},
+    {"Kitchen Gun", KITCHENGUN_URL, ""}
 }
 
--- Gerar os botões com as respectivas músicas
+-- Gerar os botões com suas posições
 for i, info in ipairs(buttons) do
-    createButton(info[1], info[2], info[3], mainFrame, (i - 1) * 45 + 50) -- 50 para dar espaço depois do título
+    createButton(info[1], info[2], info[3], mainFrame, (i - 1) * 45 + 50)
 end
 
 -- Quando o player morrer, parar a música
-local player = game.Players.LocalPlayer
 player.CharacterAdded:Connect(function(character)
     local humanoid = character:WaitForChild("Humanoid")
     humanoid.Died:Connect(function()
